@@ -15,9 +15,19 @@ def generate():
 
 		print paste_string
 	if button_choice.get() == 'init':
-		paste_string = "null"
+		#paste_string = "null"
+		weapon = wpn_box.get()
+		initiative = init_box.get()
+		paste_string = "[u]Initiative[/u]\nRoll: " + str(roll_val) +"\nWeapon: " + weapon + "\nInitiative: " + initiative
+		final_score = int(initiative)+int(roll_val)
+		paste_string = paste_string + "\nFinal Score: [b]" + str(final_score) + "[/b]"
+
 	if button_choice.get() == 'skil':
-		paste_string = "null"
+		skill_name = skil_box.get()
+		skill_val = skil_val_box.get()
+		paste_string = "[u]" + skill_name + "[/u]\nRoll: " + str(roll_val) + "\nSkill Value: " + skill_val
+		final_score = int(skill_val)+int(roll_val)
+		paste_string = paste_string + "\nFinal Score: [b]" + str(final_score) + "[/b]"
 
 	root2.clipboard_clear()
 	root2.clipboard_append(paste_string)
