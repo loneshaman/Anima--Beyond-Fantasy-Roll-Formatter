@@ -1,9 +1,13 @@
 from Tkinter import *
 
+choice_str = None
 
 def get_choice():
+	#choice_str = button_choice.get()
 	root.destroy()
-def generate():
+
+def generate(skil_var):
+	#print skil_var
 	if button_choice.get() == 'atk':
 		weapon = wpn_box.get()
 		target = tgt_box.get()
@@ -23,7 +27,7 @@ def generate():
 		paste_string = paste_string + "\nFinal Score: [b]" + str(final_score) + "[/b]"
 
 	if button_choice.get() == 'skil':
-		skill_name = skil_box.get()
+		skill_name = skil_var.get()
 		skill_val = skil_val_box.get()
 		paste_string = "[u]" + skill_name + "[/u]\nRoll: " + str(roll_val) + "\nSkill Value: " + skill_val
 		final_score = int(skill_val)+int(roll_val)
@@ -31,7 +35,15 @@ def generate():
 
 	root2.clipboard_clear()
 	root2.clipboard_append(paste_string)
+	print paste_string
 	root2.destroy()
+
+SKILLS = ["Acrobatics", "Athleticism", "Climb", "Jump", "Ride", "Swim", "Art", 
+"Dance", "Forging", "Music", "Sleight of Hand", "Animals", "Appraisal", "Herbal Lore", 
+"History", "Memorize", "Magic Appraisal", "Medicine", "Navigation", "Occult", "Sciences", "Notice", 
+"Search", "Track", "Intimidate", "Leadership", "Persuasion", "Style", "Disguise",
+"Hide", "Lock Picking", "Poisons", "Theft", "Stealth", "Trap Lore", "Composure", 
+"Feats of Strength", "Withstand Pain"]
 
 root = Tk()
 root.title("Anima Roll Formatter")
@@ -63,6 +75,8 @@ root2 = Tk()
 #print("window")
 root2.geometry("250x100")
 #print("Geo")
+skill_var = StringVar(root2)
+skill_var.set(SKILLS[0])
 app2 = Frame(root2)
 app2.grid()
 if button_choice.get() == 'atk':
@@ -94,15 +108,18 @@ if button_choice.get() == 'init':
 if button_choice.get() == 'skil':
 	print("Skill chosen")
 	root2.title("Skill Formatter")
-	skil = Label(app2, text = "Skill name:")
-	skil.grid(row = 1, sticky = W)
-	skil_box = Entry(app2)
-	skil_box.grid(row = 1, column = 1)
+	#skil_box = Entry(app2)
 	skil_val = Label(app2, text = "Skill value:")
-	skil_val.grid(row = 2, sticky = W)
+	skil_val.grid(row = 2, sticky = "w")
 	skil_val_box = Entry(app2)
 	skil_val_box.grid(row = 2, column = 1)
-gen_button = Button(app2, text = "Generate", command = generate)
-gen_button.grid(sticky = S)
-root.mainloop()
-
+	skil = Label(app2, text = "Skill name:")
+	skil.grid(row = 1, sticky = W)
+	skil_box = OptionMenu(app2, skill_var, *SKILLS)
+	skil_box["width"] = 15
+	skil_box.grid(row = 1, column = 1)
+gen_button = Button(app2, text = "Generate", command = lambda: generate(skill_var))
+gen_button.grid(sticky = "s")
+app2.grid_rowconfigure(1, weight = 2)
+app2.grid_rowconfigure(2, weight = 2)
+root2.mainloop()
